@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento via Pix - Vithoria Gabrielly Cristi</title>
+    <!-- Carregando Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carregando fonte Inter do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Carregando biblioteca QRCode.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        pix: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            teal: '#32BCAD',
+                            tealDark: '#239B8E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Barra superior decorativa estilo fintech -->
+    <div class="w-full h-2 bg-gradient-to-r from-[#32BCAD] via-emerald-500 to-teal-600"></div>
+
+    <!-- Container principal centralizado e otimizado para mobile -->
+    <main class="w-full max-w-md mx-auto px-4 py-6 sm:py-10 flex-grow flex flex-col justify-center">
+        
+        <!-- Cartão Principal -->
+        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-100 overflow-hidden">
+            
+            <!-- Cabeçalho com identidade visual Pix -->
+            <div class="bg-gradient-to-br from-[#32BCAD] to-emerald-600 px-6 pt-7 pb-8 text-white text-center relative">
+                <!-- Badge NFC / Pix -->
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-4 shadow-sm">
+                    <!-- Ícone oficial estilizado do Pix em SVG -->
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.45 16.52l-3.01-3.01c-.24-.24-.64-.24-.88 0l-3.01 3.01c-.59.59-1.37.91-2.21.91H5.6l3.8 3.8c1.44 1.44 3.76 1.44 5.2 0l3.8-3.8h-.74c-.84 0-1.62-.32-2.21-.91zM8.55 7.48l3.01 3.01c.24.24.64.24.88 0l3.01-3.01c.59-.59 1.37-.91 2.21-.91h.74l-3.8-3.8c-1.44-1.44-3.76-1.44-5.2 0l-3.8 3.8h.74c.84 0 1.62.32 2.21.91zM19.83 9.4l-2.18-2.18c-.21.06-.43.1-.66.1h-.74c-.53 0-1.03.21-1.41.58l-3.01 3.01c-.46.46-1.07.71-1.72.71s-1.26-.25-1.72-.71L5.38 7.9c-.38-.37-.88-.58-1.41-.58h-.74c-.23 0-.45-.04-.66-.1L.39 9.4c-1.44 1.44-1.44 3.76 0 5.2l2.18 2.18c.21-.06.43-.1.66-.1h.74c.53 0 1.03-.21 1.41-.58l3.01-3.01c.92-.92 2.52-.92 3.44 0l3.01 3.01c.38.37.88.58 1.41.58h.74c.23 0 .45.04.66.1l2.18-2.18c1.44-1.44 1.44-3.76 0-5.2z"/>
+                    </svg>
+                    <span>Pagamento Instantâneo Pix</span>
+                </div>
+
+                <!-- Dados do Recebedor -->
+                <p class="text-emerald-50 text-xs font-medium uppercase tracking-wider mb-1">Recebedor</p>
+                <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight leading-snug">
+                    Vithoria Gabrielly Cristi
+                </h1>
+                <p class="text-emerald-100 text-xs mt-1 font-medium">
+                    São Paulo • Brasil
+                </p>
+            </div>
+
+            <!-- Corpo do Cartão -->
+            <div class="p-6 -mt-4 bg-white rounded-t-3xl space-y-6">
+                
+                <!-- Seção 1: QR Code Gerado Automaticamente -->
+                <div class="flex flex-col items-center">
+                    <div class="p-4 bg-white rounded-2xl border-2 border-emerald-100 shadow-sm flex items-center justify-center">
+                        <div id="qrcode-container" class="w-48 h-48 flex items-center justify-center"></div>
+                    </div>
+                    <span class="text-xs text-slate-400 mt-2.5 font-medium">
+                        Escaneie o QR Code ou use o botão abaixo
+                    </span>
+                </div>
+
+                <!-- Divisor -->
+                <div class="relative flex items-center py-1">
+                    <div class="flex-grow border-t border-slate-100"></div>
+                    <span class="flex-shrink mx-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Pix Copia e Cola</span>
+                    <div class="flex-grow border-t border-slate-100"></div>
+                </div>
+
+                <!-- Seção 2 e 3: Código Pix Visível e Botão Grande de Copiar -->
+                <div class="space-y-3">
+                    <div class="relative">
+                        <label for="pix-code-input" class="sr-only">Código Pix Copia e Cola</label>
+                        <textarea 
+                            id="pix-code-input" 
+                            readonly 
+                            rows="3"
+                            aria-label="Código Pix Copia e Cola"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-xs font-mono text-slate-600 break-all resize-none focus:outline-none focus:ring-2 focus:ring-[#32BCAD]/40 focus:border-[#32BCAD] transition-all select-all"
+                        >00020101021126360014BR.GOV.BCB.PIX0114+55929840646335204000053039865802BR5925Vithoria Gabrielly Cristi6009SAO PAULO62080504daqr63043ACD</textarea>
+                    </div>
+
+                    <!-- Botão Principal de Ação (Toque Amplo) -->
+                    <button 
+                        id="copy-btn" 
+                        type="button"
+                        onclick="copyPixCode()"
+                        class="w-full py-4 px-6 rounded-2xl bg-[#32BCAD] hover:bg-[#239B8E] active:scale-[0.98] text-white font-bold text-base shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 cursor-pointer touch-manipulation"
+                    >
+                        <!-- Ícone Copiar -->
+                        <svg id="icon-copy" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <!-- Ícone Check (oculto inicialmente) -->
+                        <svg id="icon-check" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span id="copy-btn-text">Copiar Código Pix</span>
+                    </button>
+
+                    <!-- Mensagem discreta de confirmação extra -->
+                    <div id="toast-feedback" role="status" aria-live="polite" class="hidden text-center">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                            Código pronto! Agora abra o app do seu banco.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Seção 4: Instruções Rápidas -->
+                <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-100 space-y-3">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-[#32BCAD]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        Como pagar em 3 passos
+                    </h2>
+                    <ol class="space-y-2.5 text-xs text-slate-600">
+                        <li class="flex items-start gap-2.5">
+                            <span class="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[11px]">1</span>
+                            <span>Toque no botão <strong>Copiar Código Pix</strong> acima.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[11px]">2</span>
+                            <span>Abra o aplicativo do seu banco e acesse a área <strong>Pix</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <span class="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[11px]">3</span>
+                            <span>Escolha <strong>Pix Copia e Cola</strong>, cole o código, informe o valor e confirme.</span>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Rodapé discreto -->
+        <footer class="mt-6 text-center text-[11px] text-slate-400">
+            Ambiente seguro para transferência instantânea via Pix
+        </footer>
+    </main>
+
+    <script>
+        // Código Pix Copia e Cola oficial fornecido
+        const PIX_PAYLOAD = "00020101021126360014BR.GOV.BCB.PIX0114+55929840646335204000053039865802BR5925Vithoria Gabrielly Cristi6009SAO PAULO62080504daqr63043ACD";
+
+        // Inicializa o QR Code ao carregar a página
+        window.addEventListener("DOMContentLoaded", () => {
+            try {
+                const qrContainer = document.getElementById("qrcode-container");
+                qrContainer.innerHTML = "";
+                new QRCode(qrContainer, {
+                    text: PIX_PAYLOAD,
+                    width: 192,
+                    height: 192,
+                    colorDark: "#0f172a",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            } catch (error) {
+                console.error("Erro ao gerar QR Code:", error);
+                document.getElementById("qrcode-container").innerHTML = 
+                    '<p class="text-xs text-slate-500 text-center p-2">Use o botão "Copiar Código Pix" abaixo para pagar.</p>';
+            }
+        });
+
+        let resetTimer = null;
+
+        // Função para copiar o código Pix com suporte universal (iOS, Android e Desktop)
+        function copyPixCode() {
+            const textarea = document.getElementById("pix-code-input");
+            textarea.value = PIX_PAYLOAD;
+            textarea.focus();
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // Compatibilidade com dispositivos móveis (iOS/Android)
+
+            let copied = false;
+            try {
+                copied = document.execCommand("copy");
+            } catch (err) {
+                console.warn("Fallback de cópia falhou:", err);
+            }
+
+            // Remove a seleção visual do texto após copiar
+            window.getSelection()?.removeAllRanges();
+
+            if (copied || navigator.clipboard) {
+                if (!copied && navigator.clipboard) {
+                    navigator.clipboard.writeText(PIX_PAYLOAD).catch(() => {});
+                }
+                showCopiedFeedback();
+            }
+        }
+
+        // Atualiza o visual do botão para confirmar que o código foi copiado
+        function showCopiedFeedback() {
+            const btn = document.getElementById("copy-btn");
+            const btnText = document.getElementById("copy-btn-text");
+            const iconCopy = document.getElementById("icon-copy");
+            const iconCheck = document.getElementById("icon-check");
+            const toast = document.getElementById("toast-feedback");
+
+            // Altera estilos para estado de sucesso
+            btn.classList.remove("bg-[#32BCAD]", "hover:bg-[#239B8E]");
+            btn.classList.add("bg-emerald-700", "hover:bg-emerald-800");
+            btnText.textContent = "Código Copiado!";
+            iconCopy.classList.add("hidden");
+            iconCheck.classList.remove("hidden");
+            toast.classList.remove("hidden");
+
+            // Vibração tátil suave em celulares compatíveis
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+
+            // Restaura o botão após 3.5 segundos
+            if (resetTimer) clearTimeout(resetTimer);
+            resetTimer = setTimeout(() => {
+                btn.classList.remove("bg-emerald-700", "hover:bg-emerald-800");
+                btn.classList.add("bg-[#32BCAD]", "hover:bg-[#239B8E]");
+                btnText.textContent = "Copiar Código Pix";
+                iconCheck.classList.add("hidden");
+                iconCopy.classList.remove("hidden");
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
